@@ -1,0 +1,106 @@
+# Maven target directory
+/target/
+**/target/
+build/
+**/build/
+.gradle/
+
+# Gradle build directories
+/build/
+/.gradle/
+
+# Eclipse / STS
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# VS Code
+.vscode/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ----------------------------------------
+# ⚙️ System / OS files
+# ----------------------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# ----------------------------------------
+# 🧩 Logs, temporary files & dumps
+# ----------------------------------------
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.err
+*.out
+logs/
+tmp/
+
+# ----------------------------------------
+# 🔑 Environment / Credentials
+# ----------------------------------------
+*.env
+*.key
+*.pem
+*.crt
+*.cer
+*.jks
+*.p12
+*.keystore
+secrets/
+application-*.yml
+application-*.yaml
+application-*.properties
+
+# ----------------------------------------
+# 🧪 Testing
+# ----------------------------------------
+/test-output/
+/surefire-reports/
+/failsafe-reports/
+/jacoco.exec
+/jacoco-report.html
+
+# ----------------------------------------
+# 🧰 Dependencies / Packaging
+# ----------------------------------------
+/*.jar
+/*.war
+/*.ear
+dependency-reduced-pom.xml
+
+# ----------------------------------------
+# 🗂️ Temporary or published directories
+# ----------------------------------------
+/published/
+/tmp/
+/logs/
+/bin/
+/lib/
+/doc/
+/classes/
+
+# ----------------------------------------
+# 🐳 Docker & CI/CD
+# ----------------------------------------
+/docker-compose.override.yml
+*.pid
+*.seed
+*.tar
+*.gz
