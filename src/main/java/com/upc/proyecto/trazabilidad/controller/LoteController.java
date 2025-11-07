@@ -28,42 +28,6 @@ public class LoteController {
     @Autowired
     private JWTUtils jwtUtils;
 
-    /*@PostMapping("/registrar")
-    public ResponseEntity<?> registrarLote(@RequestBody Lote lote) {
-        if (lote.getEmpaques() == null || lote.getEmpaques().isEmpty()) {
-            return ResponseEntity.badRequest().body(
-                    Map.of("exito", false, "mensaje", "El lote debe contener al menos un empaque.")
-            );
-        }
-
-        for (Empaque empaque : lote.getEmpaques()) {
-            if (empaque.getCodigoQR() == null || empaque.getCodigoQR().isBlank() ||
-                    empaque.getUnidadMedida() == null || empaque.getUnidadMedida().isBlank() ||
-                    empaque.getPeso() <= 0) {
-                return ResponseEntity.badRequest().body(
-                        Map.of("exito", false, "mensaje", "Cada empaque debe tener código QR, peso (>0) y unidad de medida.")
-                );
-            }
-        }
-        try {
-            Lote loteGuardado = loteService.guardarLote(lote);
-            return ResponseEntity.status(HttpStatus.CREATED).body(
-                    Map.of(
-                            "exito", true,
-                            "mensaje", "Lote registrado correctamente con " + loteGuardado.getEmpaques().size() + " empaques.",
-                            "lote", loteGuardado
-                    )
-            );
-        } catch (RuntimeException ex) {
-            return ResponseEntity.badRequest().body(
-                    Map.of(
-                            "exito", false,
-                            "mensaje", ex.getMessage()
-                    )
-            );
-        }
-    }*/
-
     @PostMapping("/registrar")
     public ResponseEntity<?> registrarLote(@RequestBody LoteRequest request,
                                            @RequestHeader("Authorization") String token) {

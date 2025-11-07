@@ -22,20 +22,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    /*@Override
-    public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByCorreo(correo)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-        Rol rol = usuario.getRoles().stream().findFirst()
-                .orElseThrow(() -> new RuntimeException("El usuario no tiene roles asignados"));
-
-        return new org.springframework.security.core.userdetails.User(
-                usuario.getCorreo(),
-                usuario.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_" + rol.getNombre()))
-        );
-    }*/
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByCorreo(correo)

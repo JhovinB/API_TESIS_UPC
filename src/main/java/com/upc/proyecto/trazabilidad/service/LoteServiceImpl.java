@@ -32,69 +32,6 @@ public class LoteServiceImpl implements LoteService {
     @Autowired
     private BlockchainService blockchainService;
 
-    /*@Override
-    public Lote guardarLoteDesdeRequest(LoteRequest request, String correoProductor) {
-        // Buscar al usuario por correo desde el JWT
-        Usuario productor = usuarioRepository.findByCorreo(correoProductor)
-                .orElseThrow(() -> new RuntimeException("El productor no existe."));
-
-        // Verificar que sea PRODUCTOR
-        boolean esProductor = productor.getRoles().stream()
-                .anyMatch(rol -> rol.getNombre().equalsIgnoreCase("PRODUCTOR"));
-
-        if (!esProductor) {
-            throw new RuntimeException("El usuario no tiene permisos para registrar lotes.");
-        }
-
-        // Validar que no se repita el código del lote
-        if (loteRepository.findByCodigoLote(request.getCodigoLote()).isPresent()) {
-            throw new RuntimeException("Ya existe un lote con código: " + request.getCodigoLote());
-        }
-
-        // Validar y construir empaques
-        List<Empaque> empaquesAsignados = new ArrayList<>();
-        if (request.getEmpaques() == null || request.getEmpaques().isEmpty()) {
-            throw new RuntimeException("Debe registrar al menos un empaque.");
-        }
-
-        for (EmpaqueRequest empaqueDto : request.getEmpaques()) {
-            if (empaqueDto.getCodigoQR() == null || empaqueDto.getCodigoQR().isBlank()) {
-                throw new RuntimeException("Código QR requerido para cada empaque.");
-            }
-            if (empaqueDto.getPeso().compareTo(BigDecimal.ZERO) <= 0){
-                throw new RuntimeException("Peso inválido para el empaque con QR: " + empaqueDto.getCodigoQR());
-            }
-            if (empaqueDto.getUnidadMedida() == null || empaqueDto.getUnidadMedida().isBlank()) {
-                throw new RuntimeException("Unidad de medida requerida para el empaque con QR: " + empaqueDto.getCodigoQR());
-            }
-            if (empaqueRepository.findByCodigoQR(empaqueDto.getCodigoQR()).isPresent()) {
-                throw new RuntimeException("Empaque con QR " + empaqueDto.getCodigoQR() + " ya existe.");
-            }
-
-            Empaque empaque = new Empaque();
-            empaque.setCodigoQR(empaqueDto.getCodigoQR());
-            empaque.setPeso(empaqueDto.getPeso());
-            empaque.setUnidadMedida(empaqueDto.getUnidadMedida());
-            empaquesAsignados.add(empaque);
-        }
-
-        // Crear el lote y relacionarlo
-        Lote lote = new Lote();
-        lote.setCodigoLote(request.getCodigoLote());
-        lote.setEspecie(request.getEspecie());
-        lote.setFechaCosecha(request.getFechaCosecha());
-        lote.setHashBlockchain("hash-" + UUID.randomUUID()); // Simulado
-        lote.setProductor(productor);
-
-        for (Empaque e : empaquesAsignados) {
-            e.setLote(lote);
-        }
-
-        lote.setEmpaques(empaquesAsignados);
-
-        return loteRepository.save(lote);
-    }*/
-
     @Override
     public Lote guardarLote(Lote lote) {
         // Validar que el lote tenga al menos un empaque
@@ -161,72 +98,7 @@ public class LoteServiceImpl implements LoteService {
     public void eliminarLote(Long id) {
         loteRepository.deleteById(id);
     }
-   /* @Override
-    public Lote guardarLoteDesdeRequest(LoteRequest request, String correoProductor) {
 
-        Usuario productor = usuarioRepository.findByCorreo(correoProductor)
-                .orElseThrow(() -> new RuntimeException("El productor no existe."));
-
-        boolean esProductor = productor.getRoles().stream()
-                .anyMatch(rol -> rol.getNombre().equalsIgnoreCase("PRODUCTOR")|| rol.getNombre().equalsIgnoreCase("ADMIN"));
-
-        if (!esProductor) {
-            throw new RuntimeException("El usuario no tiene permisos para registrar lotes.");
-        }
-
-        if (loteRepository.findByCodigoLote(request.getCodigoLote()).isPresent()) {
-            throw new RuntimeException("Ya existe un lote con código: " + request.getCodigoLote());
-        }
-
-        // Validar empaques
-        List<Empaque> empaquesAsignados = new ArrayList<>();
-        for (EmpaqueRequest empaqueDto : request.getEmpaques()) {
-            if (empaqueDto.getCodigoQR() == null || empaqueDto.getCodigoQR().isBlank()) {
-                throw new RuntimeException("Código QR requerido para cada empaque.");
-            }
-            if (empaqueDto.getPeso().compareTo(BigDecimal.ZERO) <= 0) {
-                throw new RuntimeException("Peso inválido para el empaque con QR: " + empaqueDto.getCodigoQR());
-            }
-            if (empaqueDto.getUnidadMedida() == null || empaqueDto.getUnidadMedida().isBlank()) {
-                throw new RuntimeException("Unidad de medida requerida para el empaque con QR: " + empaqueDto.getCodigoQR());
-            }
-            if (empaqueRepository.findByCodigoQR(empaqueDto.getCodigoQR()).isPresent()) {
-                throw new RuntimeException("Empaque con QR " + empaqueDto.getCodigoQR() + " ya existe.");
-            }
-
-            Empaque empaque = new Empaque();
-            empaque.setCodigoQR(empaqueDto.getCodigoQR());
-            empaque.setPeso(empaqueDto.getPeso());
-            empaque.setUnidadMedida(empaqueDto.getUnidadMedida());
-            empaquesAsignados.add(empaque);
-        }
-
-        //REGISTRAR EN BLOCKCHAIN
-        // String txHash = "hash-simulado-" + UUID.randomUUID();
-        String txHash;
-        try {
-           // txHash = blockchainService.registrarLote(request);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error al registrar en Blockchain: " + e.getMessage());
-        }
-
-        //Crear el lote en BD
-        Lote lote = new Lote();
-        lote.setCodigoLote(request.getCodigoLote());
-        lote.setEspecie(request.getEspecie());
-        lote.setFechaCosecha(request.getFechaCosecha());
-        lote.setProductor(productor);
-       // lote.setHashBlockchain(txHash); //
-
-        for (Empaque e : empaquesAsignados) {
-            e.setLote(lote);
-        }
-
-        lote.setEmpaques(empaquesAsignados);
-
-        return loteRepository.save(lote);
-    }*/
    @Override
    public Lote guardarLoteDesdeRequest(LoteRequest request, String correoProductor) {
 
@@ -302,8 +174,4 @@ public class LoteServiceImpl implements LoteService {
        System.out.println("📦 Lote guardado correctamente con ID: " + loteGuardado.getIdLote());
        return loteGuardado;
    }
-
-
-
-
 }

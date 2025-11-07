@@ -35,24 +35,6 @@ public class BlockchainService {
 
     @Autowired
     private EmpaqueRepository empaqueRepository;
-
-
-   /* public BlockchainService() {
-        String rpcUrl = "http://localhost:8545";
-        String privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
-        this.contractAddress = "0x8464135c8F25Da09e49BC8782676a84730C318bC";
-
-        this.web3j = Web3j.build(new HttpService(rpcUrl));
-        this.credentials = Credentials.create(privateKey);
-
-        ContractGasProvider gasProvider = new StaticGasProvider(
-                BigInteger.valueOf(1_000_000_000L),
-                BigInteger.valueOf(6_000_000L)
-
-        );
-
-        this.loteContract = LoteContract.load(contractAddress, web3j, credentials, gasProvider);
-    } */
    public BlockchainService() {
        String rpcUrl = "http://localhost:8545";
        String privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
@@ -74,76 +56,6 @@ public class BlockchainService {
       // this.transporteContract = TransporteContract.load(transporteContractAddress, web3j, credentials, gasProvider);
 
    }
-
-    // REGISTRO DE LOTE
-   /* public String registrarLote(LoteRequest dto) throws Exception {
-        try {
-            // Validar que el contrato está desplegado
-            EthGetCode codeResponse = web3j.ethGetCode(loteContractAddress, DefaultBlockParameterName.LATEST).send();
-            if (codeResponse.getCode() == null || codeResponse.getCode().equals("0x")) {
-                throw new RuntimeException("El contrato no está desplegado en la dirección: " + loteContractAddress);
-            }
-
-            System.out.println("Preparando datos para Blockchain");
-            //Convertir lista de códigos QR
-            List<String> codigosQR = dto.getEmpaques().stream()
-                    .map(EmpaqueRequest::getCodigoQR)
-                    .toList();
-
-            //Convertir pesos (BigDecimal a BigInteger en gramos)
-            List<BigInteger> pesos = dto.getEmpaques().stream()
-                    .map(e -> e.getPeso().multiply(BigDecimal.valueOf(1000)).toBigInteger()) // Convertir a gramos si viene en kg
-                    .toList();
-
-            // Unidades de medida
-            List<String> unidades = dto.getEmpaques().stream()
-                    .map(EmpaqueRequest::getUnidadMedida)
-                    .toList();
-
-            //Formatear fecha a String (yyyy-MM-dd)
-            String fechaFormateada = dto.getFechaCosecha().toString();
-
-            //Log antes de enviar transacción
-            System.out.println("Enviando transacción a Blockchain con los siguientes datos:");
-            System.out.println("Código Lote: " + dto.getCodigoLote());
-            System.out.println("Especie: " + dto.getEspecie());
-            System.out.println("Fecha: " + fechaFormateada);
-            System.out.println("Codigos QR: " + codigosQR);
-            System.out.println("Pesos: " + pesos);
-            System.out.println("Unidades: " + unidades);
-
-
-            //Ejecutar transacción
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Future<TransactionReceipt> future = executor.submit(() ->
-                    loteContract.registrarLote(
-                            dto.getCodigoLote(),
-                            dto.getEspecie(),
-                            fechaFormateada,
-                            dto.isEscanearQR(),
-                            codigosQR,
-                            pesos,
-                            unidades
-                    ).send()
-            );
-
-            TransactionReceipt tx = future.get(60, TimeUnit.SECONDS); // Tiempo máximo
-
-            executor.shutdown();
-
-            if (!tx.isStatusOK()) {
-                throw new RuntimeException("Transacción fallida. Status: " + tx.getStatus());
-            }
-            System.out.println("Transacción confirmada: " + tx.getTransactionHash());
-            return tx.getTransactionHash();
-
-        } catch (TimeoutException e) {
-            throw new RuntimeException("La transacción a Blockchain tomó demasiado tiempo.");
-        } catch (Exception e) {
-            throw new RuntimeException("Error al registrar lote en Blockchain: " + e.getMessage(), e);
-        }
-    }*/
-
     /*// REGISTRO DE TRANSPORTE
     public String registrarTransporteBlockchain(TransporteRequest request, List<Empaque> empaques) throws Exception {
 
