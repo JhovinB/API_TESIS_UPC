@@ -148,6 +148,8 @@
 				<version>4.13.0</version>
 				<executions>
 					<execution>
+                        <id>generate-contracts</id>
+                        <phase>none</phase>  <!-- EVITA que Render lo ejecute -->
 						<goals>
 							<goal>generate-sources</goal>
 						</goals>

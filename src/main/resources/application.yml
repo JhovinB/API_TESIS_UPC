@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USER}
-    password: ${DATABASE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -16,21 +16,13 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-
-# Propiedades personalizadas para JWT
 jwt:
-  secret: ${JWT_SECRET:f83YgV2zP0pR4Ks9LcQwN3aT7uXxB6Md}
+  secret: ${JWT_SECRET}
   expiration: ${JWT_EXPIRATION:86400000}
 
-# Logging
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
-# CONFIGURACIÓN BLOCKCHAIN
 blockchain:
-  rpc-url: ${WEB3_PROVIDER_URL:http://localhost:8545}
+  node-url: ${BLOCKCHAIN_NODE_URL}
+  wallet-private-key: ${BLOCKCHAIN_PRIVATE_KEY}
 
 #server:
  # port: 8080

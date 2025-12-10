@@ -34,9 +34,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("api/public/trazabilidad/**").permitAll()
-                        //.requestMatchers("api/usuarios/**").permitAll()
-                        .requestMatchers("api/usuarios/**","/api/lote/**", "/api/empaques/**","/api/transporte/**", "/api/distribucion/**").hasRole("ADMIN")
+                        .requestMatchers("/api/public/trazabilidad/**").permitAll()
+                        //.requestMatchers("/api/usuarios/**").permitAll()
+                        .requestMatchers("/api/usuarios/**","/api/lote/**", "/api/empaques/**","/api/transporte/**", "/api/distribucion/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
